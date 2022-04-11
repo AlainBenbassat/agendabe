@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<extension key="eu.tttp.agendabe" type="module">
+  <file>agendabe</file>
+  <name>Agendabe</name>
+  <description>generates the xml needed for agenda.be</description>
+  <license>AGPL-3.0</license>
+  <maintainer>
+    <author>Alain Benbassat</author>
+    <email>alain@businessandcode.eu</email>
+  </maintainer>
+  <urls>
+    <url desc="Main Extension Page">https://github.com/AlainBenbassat/agendabe</url>
+    <url desc="Licensing">https://www.gnu.org/licenses/agpl-3.0.html</url>
+  </urls>
+  <releaseDate>2020-04-11</releaseDate>
+  <version>2.0</version>
+  <develStage>stable</develStage>
+  <compatibility>
+    <ver>5.0</ver>
+  </compatibility>
+  <comments>Original development done by Xavier civicrm@tttp.eu - 2014-12-02</comments>
+  <civix>
+    <namespace>CRM/Agendabe</namespace>
+  </civix>
+</extension>
