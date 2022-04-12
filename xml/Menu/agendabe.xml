@@ -7,11 +7,4 @@
     <access_arguments>view event info</access_arguments>
     <is_public>true</is_public>
   </item>
-  <item>
-    <path>civicrm/event/agendabe/config</path>
-    <page_callback>CRM_Agendabe_Form_AgendaConfig</page_callback>
-    <title>AgendaBE</title>
-   <access_arguments>access CiviCRM</access_arguments>
-    <is_public>true</is_public>
-  </item>
 </menu>

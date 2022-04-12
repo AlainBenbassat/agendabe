@@ -174,6 +174,9 @@ class CRM_Agendabe_Generator {
   }
 
   private static function getAgendaBeData() {
+    $eventStatusCommunicatieOK = 5;
+    $optionGroupEventType = 15;
+
     $query = "
       SELECT
         a.id,
@@ -246,11 +249,11 @@ class CRM_Agendabe_Generator {
           f.id = g.entity_id
         WHERE
           f.start_date >= NOW()
-          AND g.activiteit_status = 5) AS counttable
+          AND g.activiteit_status = $eventStatusCommunicatieOK) AS counttable
       WHERE
         a.start_date >= NOW()
-        AND c.option_group_id = 15
-        AND (d.activiteit_status = 5)
+        AND c.option_group_id = $optionGroupEventType
+        AND (d.activiteit_status = $eventStatusCommunicatieOK)
       ORDER BY
         a.start_date;
     ";
