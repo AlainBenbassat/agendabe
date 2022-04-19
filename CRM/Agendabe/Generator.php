@@ -230,7 +230,7 @@ class CRM_Agendabe_Generator {
           h.entity_id,
           i.id,
           GROUP_CONCAT(j.label SEPARATOR ',') AS pricelabel,
-          GROUP_CONCAT(j.amount SEPARATOR ',') AS amount
+          GROUP_CONCAT(round(j.amount, 2) SEPARATOR ',') AS amount
         from
           civicrm_price_set_entity h
         LEFT JOIN civicrm_price_field i on
