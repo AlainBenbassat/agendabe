@@ -44,7 +44,7 @@ class CRM_Agendabe_Generator {
     print str_replace("&", "&amp;","<title>$dao->title</title>");
 
     if ($dao->is_online_registration == 1) {
-      print "<url>https://icontact.muntpunt.be/civicrm/event/register?reset=1&amp;id=$dao->id</url>";
+      print "<url>https://brusseldanst.be/civicrm/event/register?reset=1&amp;id=$dao->id</url>";
     }
     elseif ($dao->eventlink != "") {
       print str_replace("&", "&amp;","<url>$dao->eventlink</url>");
@@ -96,11 +96,9 @@ class CRM_Agendabe_Generator {
   }
 
   private static function printEventPlace($dao) {
-    $zalen = substr(preg_replace("/\x01/",", ",$dao->muntpunt_zalen),1,-2);
-
     print "<place>";
     print "<id>$dao->PlaceID</id>";
-    print "<name>$dao->PlaceName, $zalen</name>";
+    print "<name>$dao->PlaceName</name>";
     print "<street>$dao->PlaceStreet</street>";
     print "<zip>$dao->PlaceZip</zip>";
     print "<city>$dao->PlaceCity</city>";
@@ -165,7 +163,7 @@ class CRM_Agendabe_Generator {
   }
 
   private static function printEventLanguages($dao) {
-    $languages = substr(preg_replace("/\x01/",",", $dao->taal),1,-1);
+    $languages = substr(preg_replace("/\x01/",",", $dao->taal_2),1,-1);
     print "<languages>";
     foreach (explode(",", $languages) as $language ) {
       print "<language>$language</language>";
@@ -188,10 +186,9 @@ class CRM_Agendabe_Generator {
         TIME_FORMAT(a.end_date, '%H:%i') AS hourend,
         b.parent_id,
         c.label,
-        d.muntpunt_zalen,
-        d.evenement_link AS eventlink,
-        d.doelgroep,
-        d.organisator AS OrganizerID,
+        d.evenement_link_5 AS eventlink,
+        d.doelgroep_1,
+        d.organisator_3 AS OrganizerID,
         organizer.organization_name AS OrganizerName,
         organizeraddress.street_address AS OrganizerStreet,
         organizeraddress.postal_code AS OrganizerZip,
@@ -201,7 +198,7 @@ class CRM_Agendabe_Generator {
         place.street_address AS PlaceStreet,
         place.postal_code AS PlaceZip,
         place.city AS PlaceCity,
-        d.taal,
+        d.taal_2,
         e.id AS locblockid,
         e.address_id,
         a.summary,
@@ -215,7 +212,7 @@ class CRM_Agendabe_Generator {
         a.id = b.entity_id
       LEFT JOIN civicrm_option_value c ON
         a.event_type_id = c.value
-      LEFT JOIN civicrm_value_extra_evenement_info d ON
+      LEFT JOIN civicrm_value_extra_eveneme_1 d ON
         a.id = d.entity_id
       LEFT JOIN civicrm_contact organizer ON
         d.organisator = organizer.id
@@ -245,15 +242,15 @@ class CRM_Agendabe_Generator {
           count(distinct f.id) AS numberofrecords
         FROM
           civicrm_event f
-        LEFT JOIN civicrm_value_extra_evenement_info g ON
+        LEFT JOIN civicrm_value_extra_eveneme_1 g ON
           f.id = g.entity_id
         WHERE
           f.start_date >= NOW()
-          AND g.activiteit_status = $eventStatusCommunicatieOK) AS counttable
+          AND g.activiteit_status_4 = $eventStatusCommunicatieOK) AS counttable
       WHERE
         a.start_date >= NOW()
         AND c.option_group_id = $optionGroupEventType
-        AND (d.activiteit_status = $eventStatusCommunicatieOK)
+        AND (d.activiteit_status_4 = $eventStatusCommunicatieOK)
       ORDER BY
         a.start_date;
     ";
