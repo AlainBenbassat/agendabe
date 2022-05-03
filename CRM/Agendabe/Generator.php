@@ -215,9 +215,9 @@ class CRM_Agendabe_Generator {
       LEFT JOIN civicrm_value_extra_eveneme_1 d ON
         a.id = d.entity_id
       LEFT JOIN civicrm_contact organizer ON
-        d.organisator = organizer.id
+        d.organisator_3 = organizer.id
       LEFT JOIN civicrm_address organizeraddress ON
-        d.organisator = organizeraddress.contact_id
+        d.organisator_3 = organizeraddress.contact_id
       LEFT JOIN civicrm_loc_block e ON
         a.loc_block_id = e.id
       LEFT JOIN civicrm_address place ON
