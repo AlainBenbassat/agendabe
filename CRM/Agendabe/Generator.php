@@ -96,15 +96,20 @@ class CRM_Agendabe_Generator {
   }
 
   private static function printEventPlace($dao) {
-    $zalen = substr(preg_replace("/\x01/",", ",$dao->muntpunt_zalen),1,-2);
-
+ $zalen = substr(preg_replace("/\x01/",", ",$dao->muntpunt_zalen),1,-2);
+    $plaatsnaam = $dao->PlaceName;
     print "<place>";
     print "<id>$dao->PlaceID</id>";
-    print "<name>$dao->PlaceName, $zalen</name>";
+    if(!empty($zalen)){
+        print "<name>$plaatsnaam, $zalen</name>";
+    }else{
+        print "<name>$plaatsnaam</name>";
+    }
     print "<street>$dao->PlaceStreet</street>";
     print "<zip>$dao->PlaceZip</zip>";
     print "<city>$dao->PlaceCity</city>";
     print "</place>";
+
   }
 
   private static function printEventOnline($dao) {
