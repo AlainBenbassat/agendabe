@@ -28,6 +28,7 @@ class CRM_Agendabe_Generator {
     self::printEventOnline($dao);
     self::printEventPrices($dao);
     self::printEventTargetAudience($dao);
+    self::printEventTaalIcon($dao);
     self::printEventLanguages($dao);
   }
 
@@ -136,33 +137,43 @@ class CRM_Agendabe_Generator {
   }
 
   private static function printEventTargetAudience($dao) {
-    $targetaudiences = substr(preg_replace("/\x01/",",", $dao->doelgroep),1,-1);
+    $targetAudiences = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dao->doelgroep);
+    $targetAges = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dao->leeftijd_41);
+
     print "<target_audience>";
-    foreach (explode(",",$targetaudiences) as $targetaudience){
-      if (stripos($targetaudience,"Taalniveau") === false){
-        print "<type>$targetaudience</type>";
+    foreach ($targetAudiences as $targetAudience) {
+      print "<type>$targetAudience</type>";
+    }
+
+    foreach ($targetAges as $targetAge) {
+      if ($targetAge == 'Volwassen' && in_array('Volwassen', $targetAudiences)) {
+        // avoid double entry
+      }
+      else {
+        print "<type>$targetAge</type>";
       }
     }
-    print "</target_audience>";
 
-    self::printEventTaalIcon($targetaudiences);
+    print "</target_audience>";
   }
 
-  private static function printEventTaalIcon($targetaudiences) {
-    foreach (explode(",", $targetaudiences) as $targetaudience) {
-      if ($targetaudience == "Taalniveau één") {
+  private static function printEventTaalIcon($dao) {
+    $targetLanguageLevels = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dao->taalniveau_42);
+
+    foreach ($targetLanguageLevels as $targetLanguageLevel) {
+      if ($targetLanguageLevel == "Taalniveau één") {
         print "<taalicon>1</taalicon>";
         print "<taalicondescription>Je begrijpt of spreekt nog niet veel Nederlands.</taalicondescription>";
       }
-      elseif ($targetaudience == "Taalniveau twee") {
+      elseif ($targetLanguageLevel == "Taalniveau twee") {
         print "<taalicon>2</taalicon>";
         print "<taalicondescription>Je begrijpt al een beetje Nederlands maar je spreekt het nog niet zo goed.</taalicondescription>";
       }
-      elseif($targetaudience == "Taalniveau drie") {
+      elseif($targetLanguageLevel == "Taalniveau drie") {
         print "<taalicon>3</taalicon>";
         print "<taalicondescription>Je begrijpt vrij veel Nederlands en kan ook iets vertellen.</taalicondescription>";
       }
-      elseif($targetaudience == "Taalniveau vier") {
+      elseif($targetLanguageLevel == "Taalniveau vier") {
         print "<taalicon>4</taalicon>";
         print "<taalicondescription>Je begrijpt veel Nederlands en spreekt het goed.</taalicondescription>";
       }
@@ -170,9 +181,10 @@ class CRM_Agendabe_Generator {
   }
 
   private static function printEventLanguages($dao) {
-    $languages = substr(preg_replace("/\x01/",",", $dao->taal),1,-1);
+    $languages = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dao->taal);
+
     print "<languages>";
-    foreach (explode(",", $languages) as $language ) {
+    foreach ($languages as $language ) {
       print "<language>$language</language>";
     }
     print "</languages>";
@@ -196,6 +208,8 @@ class CRM_Agendabe_Generator {
         d.muntpunt_zalen,
         d.evenement_link AS eventlink,
         d.doelgroep,
+        d.leeftijd_41,
+        d.taalniveau_42,
         d.organisator AS OrganizerID,
         organizer.organization_name AS OrganizerName,
         organizeraddress.street_address AS OrganizerStreet,
