@@ -134,6 +134,9 @@ class CRM_Agendabe_Generator {
       }
       print "</prices>";
     }
+    else {
+      print "<prices><price>0</price></prices>";
+    }
   }
 
   private static function printEventTargetAudience($dao) {
