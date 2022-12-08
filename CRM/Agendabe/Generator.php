@@ -145,15 +145,19 @@ class CRM_Agendabe_Generator {
 
     print "<target_audience>";
     foreach ($targetAudiences as $targetAudience) {
-      print "<type>$targetAudience</type>";
+      if (!empty($targetAudience)) {
+        print "<type>$targetAudience</type>";
+      }
     }
 
     foreach ($targetAges as $targetAge) {
-      if ($targetAge == 'Volwassen' && in_array('Volwassen', $targetAudiences)) {
-        // avoid double entry
-      }
-      else {
-        print "<type>$targetAge</type>";
+      if (!empty($targetAge)) {
+        if ($targetAge == 'Volwassen' && in_array('Volwassen', $targetAudiences)) {
+          // avoid double entry
+        }
+        else {
+          print "<type>$targetAge</type>";
+        }
       }
     }
 
@@ -164,21 +168,23 @@ class CRM_Agendabe_Generator {
     $targetLanguageLevels = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dao->taalniveau_42);
 
     foreach ($targetLanguageLevels as $targetLanguageLevel) {
-      if ($targetLanguageLevel == "Taalniveau één") {
-        print "<taalicon>1</taalicon>";
-        print "<taalicondescription>Je begrijpt of spreekt nog niet veel Nederlands.</taalicondescription>";
-      }
-      elseif ($targetLanguageLevel == "Taalniveau twee") {
-        print "<taalicon>2</taalicon>";
-        print "<taalicondescription>Je begrijpt al een beetje Nederlands maar je spreekt het nog niet zo goed.</taalicondescription>";
-      }
-      elseif($targetLanguageLevel == "Taalniveau drie") {
-        print "<taalicon>3</taalicon>";
-        print "<taalicondescription>Je begrijpt vrij veel Nederlands en kan ook iets vertellen.</taalicondescription>";
-      }
-      elseif($targetLanguageLevel == "Taalniveau vier") {
-        print "<taalicon>4</taalicon>";
-        print "<taalicondescription>Je begrijpt veel Nederlands en spreekt het goed.</taalicondescription>";
+      if (!empty($targetLanguageLevel)) {
+        if ($targetLanguageLevel == "Taalniveau één") {
+          print "<taalicon>1</taalicon>";
+          print "<taalicondescription>Je begrijpt of spreekt nog niet veel Nederlands.</taalicondescription>";
+        }
+        elseif ($targetLanguageLevel == "Taalniveau twee") {
+          print "<taalicon>2</taalicon>";
+          print "<taalicondescription>Je begrijpt al een beetje Nederlands maar je spreekt het nog niet zo goed.</taalicondescription>";
+        }
+        elseif ($targetLanguageLevel == "Taalniveau drie") {
+          print "<taalicon>3</taalicon>";
+          print "<taalicondescription>Je begrijpt vrij veel Nederlands en kan ook iets vertellen.</taalicondescription>";
+        }
+        elseif ($targetLanguageLevel == "Taalniveau vier") {
+          print "<taalicon>4</taalicon>";
+          print "<taalicondescription>Je begrijpt veel Nederlands en spreekt het goed.</taalicondescription>";
+        }
       }
     }
   }
