@@ -193,8 +193,10 @@ class CRM_Agendabe_Generator {
     $languages = explode(CRM_Core_DAO::VALUE_SEPARATOR, $dao->taal);
 
     print "<languages>";
-    foreach ($languages as $language ) {
-      print "<language>$language</language>";
+    foreach ($languages as $language) {
+      if (!empty($language)) {
+        print "<language>$language</language>";
+      }
     }
     print "</languages>";
   }
