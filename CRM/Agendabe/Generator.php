@@ -145,10 +145,19 @@ class CRM_Agendabe_Generator {
 
     print "<target_audience>";
     foreach ($targetAudiences as $targetAudience) {
-      if (!empty($targetAudience)) {
+
+	      if (!empty($targetAudience) && $targetAudience != 'Kinderen') {
         print "<type>$targetAudience</type>";
       }
-    }
+      if($targetAudience == 'Kinderen' && empty($dao->leeftijd_41)){
+	print "<type>Kinderen vanaf peuterleeftijd (0+)</type>";
+	print "<type>Kinderen vanaf peuterleeftijd (3+)</type>";
+	print "<type>Kinderen vanaf lagerschoolleeftijd (6+)</type>";
+	print "<type>Kinderen vanaf 9 jaar (9+)</type>";
+	print "<type>Jongeren vanaf 12 jaar (12+)</type>";
+	print "<type>Jongeren vanaf 15 jaar (15+)</type>";
+      }
+    }  
 
     foreach ($targetAges as $targetAge) {
       if (!empty($targetAge)) {
