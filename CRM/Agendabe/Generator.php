@@ -231,7 +231,7 @@ class CRM_Agendabe_Generator {
         d.doelgroep,
         d.leeftijd_41,
         d.taalniveau_42,
-        organizer.contact_id AS OrganizerID,
+        organizer.id AS OrganizerID,
         organizer.organization_name AS OrganizerName,
         organizeraddress.street_address AS OrganizerStreet,
         organizeraddress.postal_code AS OrganizerZip,
@@ -257,10 +257,12 @@ class CRM_Agendabe_Generator {
         a.event_type_id = c.value
       LEFT JOIN civicrm_value_extra_evenement_info d ON
         a.id = d.entity_id
-      LEFT JOIN civicrm_participant organizer ON
-        a.id = organizer.event_id and organizer.role_id like '%$participantRoleOrganizer%'
+      LEFT JOIN civicrm_participant organizer_participant ON
+        a.id = organizer_participant.event_id and organizer_participant.role_id like '%$participantRoleOrganizer%'
+      LEFT JOIN civicrm_contact organizer ON
+        organizer.id = organizer_participant.contact_id
       LEFT JOIN civicrm_address organizeraddress ON
-        organizer.contact_id = organizeraddress.contact_id and organizeraddress.is_primary = 1
+        organizer.id = organizeraddress.contact_id and organizeraddress.is_primary = 1
       LEFT JOIN civicrm_loc_block e ON
         a.loc_block_id = e.id
       LEFT JOIN civicrm_address place ON
