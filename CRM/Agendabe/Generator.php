@@ -157,7 +157,7 @@ class CRM_Agendabe_Generator {
 	print "<type>Jongeren vanaf 12 jaar (12+)</type>";
 	print "<type>Jongeren vanaf 15 jaar (15+)</type>";
       }
-    }  
+    }
 
     foreach ($targetAges as $targetAge) {
       if (!empty($targetAge)) {
@@ -213,6 +213,7 @@ class CRM_Agendabe_Generator {
   private static function getAgendaBeData() {
     $eventStatusCommunicatieOK = 5;
     $optionGroupEventType = 15;
+    $participantRoleOrganizer = 5;
 
     $query = "
       SELECT
@@ -230,7 +231,7 @@ class CRM_Agendabe_Generator {
         d.doelgroep,
         d.leeftijd_41,
         d.taalniveau_42,
-        d.organisator AS OrganizerID,
+        organizer.contact_id AS OrganizerID,
         organizer.organization_name AS OrganizerName,
         organizeraddress.street_address AS OrganizerStreet,
         organizeraddress.postal_code AS OrganizerZip,
@@ -256,10 +257,10 @@ class CRM_Agendabe_Generator {
         a.event_type_id = c.value
       LEFT JOIN civicrm_value_extra_evenement_info d ON
         a.id = d.entity_id
-      LEFT JOIN civicrm_contact organizer ON
-        d.organisator = organizer.id
+      LEFT JOIN civicrm_participant organizer ON
+        a.id = organizer.event_id and organizer.role_id like '%$participantRoleOrganizer%'
       LEFT JOIN civicrm_address organizeraddress ON
-        d.organisator = organizeraddress.contact_id
+        organizer.contact_id = organizeraddress.contact_id and organizeraddress.is_primary = 1
       LEFT JOIN civicrm_loc_block e ON
         a.loc_block_id = e.id
       LEFT JOIN civicrm_address place ON
