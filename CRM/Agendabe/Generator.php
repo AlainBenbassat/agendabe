@@ -88,11 +88,22 @@ class CRM_Agendabe_Generator {
 
   private static function printEventOrganizer($dao) {
     print "<organizer>";
-    print "<id>$dao->OrganizerID</id>";
-    print "<name>$dao->OrganizerName</name>";
-    print "<street>$dao->OrganizerStreet</street>";
-    print "<zip>$dao->OrganizerZip</zip>";
-    print "<city>$dao->OrganizerCity</city>";
+
+    if (empty($dao->OrganizerID)) {
+      print "<id>3</id>";
+      print "<name>Muntpunt</name>";
+      print "<street>Munt 6</street>";
+      print "<zip>1000</zip>";
+      print "<city>Brussel</city>";
+    }
+    else {
+      print "<id>$dao->OrganizerID</id>";
+      print "<name>$dao->OrganizerName</name>";
+      print "<street>$dao->OrganizerStreet</street>";
+      print "<zip>$dao->OrganizerZip</zip>";
+      print "<city>$dao->OrganizerCity</city>";
+    }
+
     print "</organizer>";
   }
 
